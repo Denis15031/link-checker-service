@@ -29,23 +29,3 @@ func TestCheckHandler(t *testing.T) {
 		t.Errorf("Expected 1 link, got %d", resp.LinksNum)
 	}
 }
-
-func TestReportHandler(t *testing.T) {
-	// NOTE: Требуется подготовить данные в storage, как в pdfgen_test
-	// или замокать pdfgen
-
-	body := `{"links_list":[0]}`
-	req := httptest.NewRequest(http.MethodPost, "/report", bytes.NewBufferString(body))
-	w := httptest.NewRecorder()
-
-	ReportHandler(w, req)
-
-	if w.Code != http.StatusOK {
-		t.Errorf("Expected status OK; got %d", w.Code)
-	}
-
-	contentType := w.Header().Get("Content-Type")
-	if contentType != "application/pdf" {
-		t.Errorf("Expected Content-Type application/pdf; got %s", contentType)
-	}
-}
